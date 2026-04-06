@@ -197,10 +197,22 @@ body.cursor-hover .ch-vert { background: var(--accent); width: 3px; }
 
 /* Info strip below nav */
 .hero-info-strip {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
+  flex-direction: column;
   border-bottom: 2px solid var(--border);
   background: var(--bg);
+}
+
+.info-row {
+  display: flex;
+}
+
+.info-row:first-child {
+  border-bottom: 2px solid var(--border);
+}
+
+.info-row .info-cell {
+  flex: 1;
 }
 
 .info-cell {
