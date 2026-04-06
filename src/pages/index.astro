@@ -15,29 +15,28 @@ const projects = [
   {
     num: '002',
     name: 'Chewsy',
-    desc: "Real-time multiplayer restaurant decision app. Tinder-style swiping with Firebase live sync across devices. Built for humans who can't choose where to eat.",
+    desc: 'Real-time multiplayer restaurant swiping. Engineered robust Firebase state-synchronization to resolve concurrent match collisions across mobile clients with zero latency.',
     tags: ['React', 'Firebase', 'Framer Motion'],
     link: 'https://chewsy-51ce4.web.app/',
   },
   {
     num: '003',
     name: 'T-Minus',
-    desc: 'Cosmic countdown platform with glassmorphism cards, procedural starfield via Canvas API, and community voting. Zero dependencies.',
+    desc: 'Cosmic countdown platform featuring a procedural starfield renderer via Canvas API. Optimized draw loops to maintain 60 FPS while rendering hundreds of alpha-blended stars with zero external dependencies.',
     tags: ['Vanilla JS', 'Canvas API', 'UI Design'],
     link: 'https://roywg925.github.io/T-MINUS/',
   },
   {
     num: '004',
     name: 'Market Sentiment X TAIEX',
-    desc: 'Fine-tuned BERT on 20,000+ PTT stock posts to correlate sentiment volatility with Taiwan Stock Exchange Index. F1 score: 0.23 → 0.68.',
+    desc: 'Architected an end-to-end NLP data pipeline processing 20,000+ posts, transforming volatile text into a predictive market indicator. Increased predictive accuracy (F1 score: 0.23 → 0.68).',
     tags: ['PyTorch', 'BERT', 'Data Engineering'],
-    link: null,
-    img: null,
+    link: 'https://github.com/RoyWG925/ptt-sentiment-stock-analysis',
   },
   {
     num: '005',
     name: 'GigaJoule: Scrap Matrix',
-    desc: 'Physics-based roguelite with multi-cell item synergy, dynamic grid adjacency, and settlement meta-progression.',
+    desc: 'Physics-based roguelite architected in Godot Engine. Designed complex systems for multi-cell item synergy evaluation and dynamic grid adjacency logic to drive settlement meta-progression.',
     tags: ['Godot', 'GDScript', 'System Design'],
     link: null,
   },
@@ -50,6 +49,8 @@ const projects = [
     <div class="nav-links">
       <a href="#work" class="nav-link">IDX: WORK</a>
       <a href="#about" class="nav-link">IDX: CORE</a>
+      <a href="https://www.linkedin.com/in/roy-wang-258b082b9/" target="_blank" rel="noopener" class="nav-link">LINKEDIN</a>
+      <a href={`${base}/Roy_Wang_Resume.pdf`} target="_blank" rel="noopener" class="nav-link" style="font-weight: 700;">RESUME.PDF</a>
       <a href="mailto:jg971402@gmail.com" class="nav-link nav-cta">INIT CONNECTION</a>
     </div>
   </header>
@@ -219,9 +220,14 @@ const projects = [
   <!-- POSTER CTA -->
   <section class="contact-poster">
     <h2><span>System</span><br/>Ready.</h2>
-    <a href="mailto:jg971402@gmail.com" class="btn-industrial" style="background: var(--bg); color: var(--border); border-color: var(--bg);">
-      Transmit Signal
-    </a>
+    <div style="display: flex; gap: 1rem; justify-content: center; align-items: center; margin-top: 2rem;">
+      <a href="mailto:jg971402@gmail.com" class="btn-industrial" style="background: var(--bg); color: var(--border); border-color: var(--bg);">
+        Transmit Signal
+      </a>
+      <a href="https://www.linkedin.com/in/roy-wang-258b082b9/" target="_blank" rel="noopener" class="btn-industrial" style="background: transparent; border-color: var(--bg); color: var(--bg);">
+        LinkedIn Protocol
+      </a>
+    </div>
   </section>
 
   <!-- FOOTER -->
