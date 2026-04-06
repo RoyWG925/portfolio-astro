@@ -42,31 +42,50 @@ const projects = [
   },
 ];
 ---
-<style>
   /* DOM-based Brutalist Portals */
   .portal-text {
     display: inline-block;
-    color: transparent; /* Makes the letter invisible */
-    -webkit-text-stroke: 2px currentColor; /* Keeps the outline */
+    color: transparent; 
+    -webkit-text-stroke: 2px currentColor;
     position: relative;
     border-radius: 50%;
-    /* Add a subtle glow so they stand out */
     text-shadow: 0 0 10px currentColor; 
   }
   .portal-orange { color: var(--accent-1, #D9381E); }
-  .portal-blue { color: #00A2FF; }
 
   /* Draw an inner darkness to look like a physical hole */
   .portal-text::after {
     content: '';
     position: absolute;
-    top: 15%; bottom: 15%; left: 15%; right: 15%;
+    top: 5%; bottom: 5%; left: 0%; right: 0%;
     border-radius: 50%;
     z-index: -1;
     pointer-events: none;
+    background: radial-gradient(circle, #000 40%, rgba(217, 56, 30, 0.4) 100%);
   }
-  .portal-orange::after { background: radial-gradient(circle, #000 30%, rgba(217, 56, 30, 0.4) 100%); }
-  .portal-blue::after { background: radial-gradient(circle, #000 30%, rgba(0, 162, 255, 0.4) 100%); }
+  
+  .portal-chute {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 32px;
+    height: 180px;
+    background: #050505;
+    border: 2px solid #00A2FF;
+    border-left: none;
+    color: #00A2FF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    writing-mode: vertical-rl;
+    font-size: 0.75rem;
+    letter-spacing: 4px;
+    font-family: var(--font-mono);
+    box-shadow: inset 0 0 15px #000, 5px 0 20px rgba(0, 162, 255, 0.2);
+    z-index: 20;
+    border-radius: 0 8px 8px 0;
+  }
 </style>
 <BaseLayout>
   <!-- NAV BANNER -->
@@ -136,7 +155,11 @@ const projects = [
         <div class="hero-role-wrap">
           <div class="hero-role">AI Application Engineer</div>
           <div class="hero-role" style="color: var(--border);">+</div>
-          <div class="hero-role" style="color: var(--accent-2);">Creative Techn<span id="portal-target-blue" class="portal-text portal-blue" style="text-transform: uppercase;">o</span>logist</div>
+          <div class="hero-role" style="color: var(--accent-2);">Creative Technologist</div>
+        </div>
+
+        <div id="portal-blue-chute" class="portal-chute">
+          ENTRY_01
         </div>
 
         <p class="hero-desc" style="margin-top: 3rem;">
@@ -425,36 +448,38 @@ const projects = [
           const rect = targetO.getBoundingClientRect();
           portals.orange.x = (rect.left - canvasRect.left) + rect.width / 2;
           portals.orange.y = (rect.top - canvasRect.top) + rect.height / 2;
-          portals.orange.radius = Math.max(rect.width, rect.height) * 0.4;
+          // Increased capture zone for better gameplay
+          portals.orange.radius = Math.max(rect.width, rect.height) * 0.7;
         }
 
-        // Pin blue portal to the 'o' in 'Technologist'
-        const targetBlue = document.getElementById('portal-target-blue');
+        // Pin blue portal to the wall chute
+        const targetBlue = document.getElementById('portal-blue-chute');
         if (targetBlue) {
           const rect2 = targetBlue.getBoundingClientRect();
           portals.blue.x = (rect2.left - canvasRect.left) + rect2.width / 2;
           portals.blue.y = (rect2.top - canvasRect.top) + rect2.height / 2;
-          portals.blue.radius = Math.max(rect2.width, rect2.height) * 0.4;
+          portals.blue.radius = Math.max(rect2.width, rect2.height) * 0.7;
         }
 
         const now = Date.now();
         scraps.forEach(s => {
           const body = s.body;
+          // The `.lastTeleport` assignment creates a ts error when we just add it to `s`. We mapped it in the type earlier.
           if (now - (s.lastTeleport || 0) < 1000) return; // 1 sec cooldown
           
           const distBlue = Math.hypot(body.position.x - portals.blue.x, body.position.y - portals.blue.y);
           const distOrange = Math.hypot(body.position.x - portals.orange.x, body.position.y - portals.orange.y);
 
-          // Blue -> Orange (Falls into Creative Technologist)
+          // Blue Chute -> Orange O
           if (distBlue < portals.blue.radius) {
             Matter.Body.setPosition(body, { x: portals.orange.x, y: portals.orange.y });
             Matter.Body.setVelocity(body, { x: (Math.random() - 0.5) * 10, y: -8 }); // Spray upwards out of ROY
             s.lastTeleport = now;
           }
-          // Orange -> Blue (Falls into ROY)
+          // Orange O -> Blue Chute
           else if (distOrange < portals.orange.radius) {
-            Matter.Body.setPosition(body, { x: portals.blue.x, y: portals.blue.y });
-            Matter.Body.setVelocity(body, { x: (Math.random() - 0.5) * 10, y: 8 }); // Drop down out of Technologist
+            Matter.Body.setPosition(body, { x: portals.blue.x + 40, y: portals.blue.y });
+            Matter.Body.setVelocity(body, { x: 15, y: -5 }); // Shoot across the screen from the left wall
             s.lastTeleport = now;
           }
         });
