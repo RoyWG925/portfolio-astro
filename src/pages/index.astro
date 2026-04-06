@@ -84,23 +84,33 @@ const projects = [
     </div>
 
     <div class="hero-main" style="position: relative; z-index: 10; pointer-events: none;">
-      <div class="hero-name-wrap" style="pointer-events: auto;">
-        <h1 class="hero-name">Roy Wang</h1>
-      </div>
-      <div class="hero-role-wrap">
-        <div class="hero-role">AI Engineer</div>
-        <div class="hero-role" style="color: var(--border);">+</div>
-        <div class="hero-role" style="color: var(--accent-2);">Builder</div>
+      <div class="hero-text-col" style="flex: 1; pointer-events: auto;">
+        <div class="hero-name-wrap">
+          <h1 class="hero-name">Roy Wang</h1>
+        </div>
+        <div class="hero-role-wrap">
+          <div class="hero-role">AI Engineer</div>
+          <div class="hero-role" style="color: var(--border);">+</div>
+          <div class="hero-role" style="color: var(--accent-2);">Builder</div>
+        </div>
+
+        <p class="hero-desc" style="margin-top: 3rem;">
+          I operate at the intersection of <strong>machine learning</strong>,
+          <strong>creative coding</strong>, and <strong>human-centered design</strong>.
+          I don't just train models — I build them into tangible, striking products.
+        </p>
+
+        <div style="margin-top: 3rem; display: flex; gap: 1rem; opacity: 0;" class="btn-industrial">
+          EXTRACT PORTFOLIO_3D.EXE
+        </div>
       </div>
 
-      <p class="hero-desc" style="margin-top: 3rem;">
-        I operate at the intersection of <strong>machine learning</strong>,
-        <strong>creative coding</strong>, and <strong>human-centered design</strong>.
-        I don't just train models — I build them into tangible, striking products.
-      </p>
-
-      <div style="margin-top: 3rem; display: flex; gap: 1rem; opacity: 0;" class="btn-industrial">
-        EXTRACT PORTFOLIO_3D.EXE
+      <div class="hero-photo-col" style="pointer-events: auto;">
+        <div class="hero-photo-wrapper">
+          <img src={`${base}/profile.jpg`} alt="Roy Wang" class="hero-photo" />
+          <div class="photo-overlay"></div>
+          <div class="hero-photo-tag">ID: R_WANG // SYS_ADMIN</div>
+        </div>
       </div>
     </div>
   </main>
@@ -182,15 +192,7 @@ const projects = [
         </div>
       </div>
       
-      <!-- 2. Profile Photo Dossier -->
-      <div class="about-panel photo-panel">
-        <div class="photo-wrapper">
-          <img src={`${base}/profile.jpg`} alt="Roy Wang" />
-          <div class="photo-overlay"></div>
-        </div>
-        <div class="photo-caption">ID: R_WANG // SYS_ADMIN</div>
-      </div>
-      
+      <!-- 2. Manifest List -->
       <div class="about-panel" style="background: var(--bg); padding-top: 1rem;">
         <ul class="manifest-list">
           <li class="manifest-item">
