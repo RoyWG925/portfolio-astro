@@ -54,6 +54,11 @@ const projects = [
     </div>
   </header>
 
+  <div class="nav-controls">
+    <button id="btn-stress-test" class="system-btn btn-alert" title="WARNING: CAUSES SYSTEM OVERLOAD">[ SYS_STRESS_TEST ]</button>
+    <button id="btn-xray-toggle" class="system-btn" title="TOGGLE BLUEPRINT VIEW">[ X-RAY : OFF ]</button>
+  </div>
+
   <!-- HERO -->
   <main class="hero" style="position: relative;">
     <!-- Physics canvas now covers the whole hero area to align coordinates -->
@@ -230,12 +235,13 @@ const projects = [
       canvas.width = width;
       canvas.height = height;
 
-      // Boundaries (Bottom, Left, Right)
+      // Boundaries (Bottom, Left, Right, Top)
       const wallOpts = { isStatic: true, render: { visible: false } };
       let ground = Matter.Bodies.rectangle(width/2, height + 50, width * 2, 100, wallOpts);
       let leftWall = Matter.Bodies.rectangle(-50, height/2, 100, height * 2, wallOpts);
       let rightWall = Matter.Bodies.rectangle(width + 50, height/2, 100, height * 2, wallOpts);
-      Matter.Composite.add(world, [ground, leftWall, rightWall]);
+      let ceiling = Matter.Bodies.rectangle(width/2, -100, width * 2, 100, wallOpts);
+      Matter.Composite.add(world, [ground, leftWall, rightWall, ceiling]);
 
       // Add Mouse Constraint so we can DRAG and THROW
       const mouse = Matter.Mouse.create(canvas);
@@ -279,6 +285,56 @@ const projects = [
           body: b,
           label: labels[Math.floor(Math.random() * labels.length)],
           color: Math.random() > 0.8 ? '#D9381E' : '#111111'
+        });
+        });
+      }
+
+      // X-Ray Toggle Mode
+      const btnXray = document.getElementById('btn-xray-toggle');
+      if (btnXray) {
+        btnXray.addEventListener('click', () => {
+          const isActive = document.body.classList.toggle('xray-mode');
+          btnXray.classList.toggle('active');
+          btnXray.innerText = isActive ? '[ X-RAY : ON ]' : '[ X-RAY : OFF ]';
+        });
+      }
+
+      // Red Button Stress Test Logic
+      const btnStress = document.getElementById('btn-stress-test');
+      if(btnStress) {
+        btnStress.addEventListener('click', () => {
+          // Trigger visual glitch & HUD
+          document.body.classList.add('stress-active');
+          
+          // Reverse Gravity
+          engine.gravity.y = -1.2; 
+          
+          // Explode! Scatter current fragments
+          scraps.forEach(s => {
+             Matter.Body.setVelocity(s.body, {
+                 x: (Math.random() - 0.5) * 40,
+                 y: (Math.random() - 0.5) * 40
+             });
+          });
+
+          // Inject 30 massive system error fragments
+          for(let i=0; i<30; i++) {
+              setTimeout(() => {
+                const b = Matter.Bodies.rectangle(Math.random() * width, height - 20, 100 + Math.random() * 60, 40, { 
+                  restitution: 0.8, friction: 0.1, density: 0.005, angle: (Math.random() - 0.5)
+                });
+                Matter.Composite.add(world, b);
+                scraps.push({ body: b, label: 'FATAL_ERR', color: '#D9381E' });
+              }, i * 20);
+          }
+
+          // Restore normal state after 3 seconds
+          setTimeout(() => {
+              engine.gravity.y = 0.5;
+              document.body.classList.remove('stress-active');
+              btnStress.innerText = '[ REBOOTING... ]';
+              setTimeout(() => btnStress.innerText = '[ SYS_STRESS_TEST ]', 2000);
+          }, 3500);
         });
       }
 

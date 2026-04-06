@@ -691,30 +691,102 @@ body.cursor-hover .ch-vert { background: var(--accent); width: 3px; }
 }
 
 /* ═══════════════════════════════════════════
-   ASCII LENS (IDEA D)
+   IDEA 3: X-RAY BLUEPRINT FLASHLIGHT
 ═══════════════════════════════════════════ */
-.ascii-container {
-  font-family: var(--font-mono);
-  font-size: 6px;
-  line-height: 1;
-  white-space: pre;
-  color: var(--border);
-  background: var(--bg);
-  position: absolute;
+#xray-overlay {
+  position: fixed;
   inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
+  pointer-events: none;
+  z-index: 100; /* Over everything to invert */
+  background-color: var(--bg);
+  background-image: 
+    linear-gradient(rgba(32, 64, 122, 0.8) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(32, 64, 122, 0.8) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mix-blend-mode: exclusion;
   opacity: 0;
-  transition: opacity 0.3s;
+  transition: opacity 0.5s ease;
+  mask-image: radial-gradient(circle 250px at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, transparent 100%);
+  -webkit-mask-image: radial-gradient(circle 250px at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, transparent 100%);
 }
 
-.hover-preview.ascii-mode img {
-  opacity: 0;
-}
-.hover-preview.ascii-mode .ascii-container {
+body.xray-mode #xray-overlay {
   opacity: 1;
+}
+
+/* ═══════════════════════════════════════════
+   IDEA 1: STRESS TEST & LOGIC
+═══════════════════════════════════════════ */
+.nav-controls {
+  position: fixed;
+  bottom: 2rem;
+  left: 2rem;
+  display: flex;
+  gap: 1rem;
+  z-index: 900;
+}
+
+.system-btn {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--border);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  padding: 0.5rem 1rem;
+  cursor: none;
+  transition: all 0.2s;
+  text-transform: uppercase;
+}
+
+.system-btn:hover {
+  background: var(--border);
+  color: var(--bg);
+}
+
+.system-btn.btn-alert:hover {
+  background: var(--alert, #D9381E);
+  border-color: var(--alert, #D9381E);
+  color: #fff;
+}
+
+.system-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+body.stress-active .telemetry-hud {
+  border-color: var(--accent);
+  background: rgba(217, 56, 30, 0.15);
+}
+
+body.stress-active .telemetry-data span {
+  color: var(--accent) !important;
+}
+
+body.stress-active .radar-line,
+body.stress-active .radar-point {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+body.stress-active .radar-grid {
+  background-image: 
+    linear-gradient(to right, rgba(217,56,30,0.2) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(217,56,30,0.2) 1px, transparent 1px);
+}
+
+@keyframes glitch-skew {
+  0% { transform: skew(0deg); }
+  20% { transform: skew(-2deg); filter: invert(0.1); }
+  40% { transform: skew(2deg); filter: invert(0); }
+  60% { transform: skew(-1deg); }
+  80% { transform: skew(1deg); filter: invert(0.2); }
+  100% { transform: skew(0deg); filter: invert(0); }
+}
+
+body.stress-active {
+  animation: glitch-skew 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
 }
 
 /* ═══════════════════════════════════════════

@@ -30,6 +30,9 @@ const {
 
   <slot />
 
+  <!-- X-Ray Overlay -->
+  <div id="xray-overlay" aria-hidden="true"></div>
+
   <!-- Telemetry HUD -->
   <div class="telemetry-hud" id="telemetry" aria-hidden="true">
     <div class="telemetry-radar">
@@ -90,6 +93,9 @@ const {
       document.addEventListener('mousemove', (e) => {
         mouseX = e.clientX;
         mouseY = e.clientY;
+        // Update CSS variables for X-Ray Mask
+        document.documentElement.style.setProperty('--mouse-x', e.clientX + 'px');
+        document.documentElement.style.setProperty('--mouse-y', e.clientY + 'px');
       });
 
       // Sharp snapping cursor + Telemetry updates
