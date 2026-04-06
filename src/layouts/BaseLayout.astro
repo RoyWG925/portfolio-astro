@@ -171,17 +171,23 @@ const {
       
       document.querySelectorAll<HTMLElement>('.data-row').forEach(row => {
         const src = row.dataset.img;
-        if (!src) return;
 
         row.addEventListener('mouseenter', () => {
-          previewImg.src = src;
-          // Setup ASCII mode randomly or based on an attribute
-          if(Math.random() > 0.5 && asciiContainer) {
+          if (src) {
+            previewImg.src = src;
+            previewImg.style.display = 'block';
+          } else {
+            previewImg.style.display = 'none';
+          }
+          
+          // Setup ASCII mode randomly or if src is missing
+          if(!src || (Math.random() > 0.5 && asciiContainer)) {
              preview.classList.add('ascii-mode');
-             // Fake ASCII text for effect
-             asciiContainer.innerHTML = Array(30).fill(0).map(() => 
-                Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
-             ).join('\\n');
+             if(asciiContainer) {
+                asciiContainer.innerHTML = Array(30).fill(0).map(() => 
+                  Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
+                ).join('\\n');
+             }
           } else {
              preview.classList.remove('ascii-mode');
           }
@@ -189,7 +195,7 @@ const {
         });
         
         row.addEventListener('mousemove', (e) => {
-          gsap.set(preview, { x: e.clientX, y: e.clientY });
+          gsap.set(preview, { x: e.clientX, y: e.clientY, xPercent: -50, yPercent: -50 });
         });
         
         row.addEventListener('mouseleave', () => {

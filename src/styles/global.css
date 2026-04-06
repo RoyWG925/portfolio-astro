@@ -478,6 +478,7 @@ body.cursor-hover .ch-vert { background: var(--accent); width: 3px; }
 ═══════════════════════════════════════════ */
 .hover-preview {
   position: fixed;
+  top: 0; left: 0;
   width: 380px;
   aspect-ratio: 16/10;
   border: 2px solid var(--border);
