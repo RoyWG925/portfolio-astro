@@ -117,8 +117,6 @@ body.cursor-hover .ch-vert { background: var(--accent); width: 3px; }
 .nav-logo-area {
   display: flex;
   align-items: center;
-  width: 280px;
-  flex-shrink: 0;
   padding: 0 2rem;
   border-right: 2px solid var(--border);
   font-family: var(--font-display);
@@ -141,7 +139,7 @@ body.cursor-hover .ch-vert { background: var(--accent); width: 3px; }
   font-family: var(--font-mono);
   font-size: 0.8rem;
   font-weight: 500;
-  border-right: 2px solid var(--border);
+  border-left: 2px solid var(--border);
   transition: background 0.3s, color 0.3s;
 }
 
@@ -215,11 +213,6 @@ body.cursor-hover .ch-vert { background: var(--accent); width: 3px; }
 
 .info-row .info-cell {
   flex: 1;
-}
-
-.info-row .info-cell:first-child {
-  width: 280px;
-  flex: none;
 }
 
 .info-cell {
