@@ -1,0 +1,362 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import '../styles/global.css';
+
+const base = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL;
+
+const projects = [
+  {
+    num: '001',
+    name: 'NUCLEUS.IO',
+    desc: 'Flyable 3D universe built with Three.js. Pilot a spaceship through neon physics, collect project orbs, and squash space bugs — custom GLSL shaders, procedural audio, and multi-layer post-processing.',
+    tags: ['Three.js', 'WebGL', 'GLSL', 'Vite', 'Audio'],
+    link: 'https://nucleus-io.vercel.app',
+    img: `${base}/previews/nucleus.png`,
+  },
+  {
+    num: '002',
+    name: 'Chewsy',
+    desc: "Real-time multiplayer restaurant decision app. Tinder-style swiping with Firebase live sync across devices. Built for humans who can't choose where to eat.",
+    tags: ['React', 'Firebase', 'Framer Motion'],
+    link: 'https://chewsy-51ce4.web.app/',
+    img: `${base}/previews/chewsy.png`,
+  },
+  {
+    num: '003',
+    name: 'T-Minus',
+    desc: 'Cosmic countdown platform with glassmorphism cards, procedural starfield via Canvas API, and community voting. Zero dependencies.',
+    tags: ['Vanilla JS', 'Canvas API', 'UI Design'],
+    link: 'https://roywg925.github.io/T-MINUS/',
+    img: `${base}/previews/tminus.png`,
+  },
+  {
+    num: '004',
+    name: 'Market Sentiment X TAIEX',
+    desc: 'Fine-tuned BERT on 20,000+ PTT stock posts to correlate sentiment volatility with Taiwan Stock Exchange Index. F1 score: 0.23 → 0.68.',
+    tags: ['PyTorch', 'BERT', 'Data Engineering'],
+    link: null,
+    img: null,
+  },
+  {
+    num: '005',
+    name: 'GigaJoule: Scrap Matrix',
+    desc: 'Physics-based roguelite with multi-cell item synergy, dynamic grid adjacency, and settlement meta-progression.',
+    tags: ['Godot', 'GDScript', 'System Design'],
+    link: null,
+    img: null,
+  },
+];
+---
+<BaseLayout>
+  <!-- NAV BANNER -->
+  <header class="nav-banner">
+    <div class="nav-logo-area">R/W</div>
+    <div class="nav-links">
+      <a href="#work" class="nav-link">IDX: WORK</a>
+      <a href="#about" class="nav-link">IDX: CORE</a>
+      <a href="mailto:jg971402@gmail.com" class="nav-link nav-cta">INIT CONNECTION</a>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <main class="hero" style="position: relative;">
+    <!-- Physics canvas now covers the whole hero area to align coordinates -->
+    <canvas id="physics-canvas" style="position: absolute; top:0; left:0; width: 100%; height: 100%; pointer-events: auto; z-index: 5; opacity: 0.8;" aria-hidden="true"></canvas>
+
+    <div class="hero-info-strip" style="position: relative; z-index: 10;">
+      <div class="info-cell">
+        <span class="info-label">Status</span>
+        <span class="info-value">Open to Work / 2026</span>
+      </div>
+      <div class="info-cell">
+        <span class="info-label">Location</span>
+        <span class="info-value">Taipei, Taiwan</span>
+      </div>
+      <div class="info-cell">
+        <span class="info-label">Discipline [01]</span>
+        <span class="info-value">AI Applications</span>
+      </div>
+      <div class="info-cell">
+        <span class="info-label">Discipline [02]</span>
+        <span class="info-value">HCI / Creative Tech</span>
+      </div>
+    </div>
+
+    <div class="hero-main" style="position: relative; z-index: 10; pointer-events: none;">
+      <div class="hero-name-wrap" style="pointer-events: auto;">
+        <h1 class="hero-name">Roy Wang</h1>
+      </div>
+      <div class="hero-role-wrap">
+        <div class="hero-role">AI Engineer</div>
+        <div class="hero-role" style="color: var(--border);">+</div>
+        <div class="hero-role" style="color: var(--accent-2);">Builder</div>
+      </div>
+
+      <p class="hero-desc" style="margin-top: 3rem;">
+        I operate at the intersection of <strong>machine learning</strong>,
+        <strong>creative coding</strong>, and <strong>human-centered design</strong>.
+        I don't just train models — I build them into tangible, striking products.
+      </p>
+
+      <div style="margin-top: 3rem; display: flex; gap: 1rem; opacity: 0;" class="btn-industrial">
+        EXTRACT PORTFOLIO_3D.EXE
+      </div>
+    </div>
+  </main>
+
+  <!-- GIANT TICKER -->
+  <div class="ticker-section" aria-hidden="true">
+    <div class="ticker-track">
+      <span>AI APP DEV</span> //
+      <span>SYSTEM DESIGN</span> //
+      <span>THREE.JS</span> //
+      <span>BERT FINE-TUNING</span> //
+      <span>GODOT ENGINE</span> //
+      <span>LEARNING SCIENCES</span> //
+      <span>AI APP DEV</span> //
+      <span>SYSTEM DESIGN</span> //
+      <span>THREE.JS</span> //
+      <span>BERT FINE-TUNING</span> //
+      <span>GODOT ENGINE</span> //
+      <span>LEARNING SCIENCES</span> //
+    </div>
+  </div>
+
+  <!-- WORK INDEX -->
+  <section id="work" class="section-wrapper">
+    <div class="section-header-box">
+      <div class="sect-title-wrap">
+        <span class="sect-index">IDX. 01</span>
+        <h2 class="sect-title">Manifest</h2>
+      </div>
+      <a href="https://github.com/RoyWG925" target="_blank" rel="noopener" class="btn-industrial btn-outline" style="border: 1px solid var(--border); padding: 0.5rem 1rem;">
+        Access Repo
+      </a>
+    </div>
+
+    <div class="data-table">
+      {projects.map((p) => (
+        <a href={p.link || '#'} target={p.link ? "_blank" : "_self"} rel="noopener" class="data-row" data-img={p.img ?? undefined} style={!p.link ? "pointer-events: none;" : ""}>
+          <div class="data-cell cell-num">[{p.num}]</div>
+          <div class="data-cell cell-title">
+            <h3 class="proj-title">{p.name}</h3>
+            <div class="proj-tech">
+              {p.tags.map(t => <span class="tech-tag">{t}</span>)}
+            </div>
+          </div>
+          <div class="data-cell cell-desc">
+            {p.desc}
+          </div>
+          <div class="data-cell cell-action">
+            {p.link ? <span>Open Link ↗</span> : <span style="opacity: 0.3;">Redacted</span>}
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <!-- The hover image element -->
+    <div class="hover-preview" id="hover-preview">
+      <img src="" alt="" />
+      <div class="ascii-container"></div>
+    </div>
+  </section>
+
+  <!-- CORE / ABOUT -->
+  <section id="about" class="section-wrapper" style="padding-bottom: 0; border-bottom: none;">
+    <div class="section-header-box" style="margin-bottom: 0; border-bottom: none;">
+      <div class="sect-title-wrap">
+        <span class="sect-index">IDX. 02</span>
+        <h2 class="sect-title">Core Spec</h2>
+      </div>
+    </div>
+
+    <div class="about-grid">
+      <div class="about-panel">
+        <div class="about-text">
+          <p>
+            I'm a B.S. Learning Sciences student at <strong>National Taiwan Normal University</strong>.
+            My background provides a distinct lens: analyzing how humans actually learn and interact with systems, bridging the gap pure engineering often leaves behind.
+          </p>
+          <p>
+            Operating between <strong>AI orchestration</strong> and <strong>frontend architecture</strong>, I prototype rapidly and execute efficiently. Rather than settling for conventional UIs, I enforce strict aesthetic standards across WebGL, React, and Game Engines.
+          </p>
+          <p>
+            My objective: Target AI application startups where <strong>System Thinking</strong> × <strong>Visual Delivery</strong> creates extreme leverage.
+          </p>
+        </div>
+      </div>
+      
+      <div class="about-panel" style="background: var(--bg); padding-top: 1rem;">
+        <ul class="manifest-list">
+          <li class="manifest-item">
+            <span class="manifest-label">Machine Learning</span>
+            <span class="manifest-val">PyTorch, BERT Fine-tuning, SegFormer, LLM Interfacing</span>
+          </li>
+          <li class="manifest-item">
+            <span class="manifest-label">Frontend Arch</span>
+            <span class="manifest-val">React, WebGL/Three.js, GLSL, Astro, Framer Motion</span>
+          </li>
+          <li class="manifest-item">
+            <span class="manifest-label">Backend / DB</span>
+            <span class="manifest-val">Node.js, Firebase, SQLite, Data Scraping pipelines</span>
+          </li>
+          <li class="manifest-item">
+            <span class="manifest-label">Cognitive Base</span>
+            <span class="manifest-val">HCI, Learning Sciences, Game Loop Design (Godot)</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- POSTER CTA -->
+  <section class="contact-poster">
+    <h2><span>System</span><br/>Ready.</h2>
+    <a href="mailto:jg971402@gmail.com" class="btn-industrial" style="background: var(--bg); color: var(--border); border-color: var(--bg);">
+      Transmit Signal
+    </a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="display: flex; justify-content: space-between; padding: 1.5rem 2rem; background: var(--border); color: var(--bg); font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase;">
+    <span>C:\Users\Roy\2026.exe</span>
+    <span>Astro // Lenis // GSAP</span>
+  </footer>
+
+  <script>
+    import Matter from 'matter-js';
+
+    // ── SCRAP MATRIX PHYSICS (IDEA C) ──
+    const canvas = document.getElementById('physics-canvas') as HTMLCanvasElement;
+    if (canvas) {
+      const ctx = canvas.getContext('2d')!;
+      
+      // Setup Engine
+      const engine = Matter.Engine.create({ gravity: { x: 0, y: 0.5, scale: 0.001 } });
+      const world = engine.world;
+      
+      let width = window.innerWidth;
+      let height = canvas.parentElement ? canvas.parentElement.clientHeight : window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+
+      // Boundaries (Bottom, Left, Right)
+      const wallOpts = { isStatic: true, render: { visible: false } };
+      let ground = Matter.Bodies.rectangle(width/2, height + 50, width * 2, 100, wallOpts);
+      let leftWall = Matter.Bodies.rectangle(-50, height/2, 100, height * 2, wallOpts);
+      let rightWall = Matter.Bodies.rectangle(width + 50, height/2, 100, height * 2, wallOpts);
+      Matter.Composite.add(world, [ground, leftWall, rightWall]);
+
+      // Add Mouse Constraint so we can DRAG and THROW
+      const mouse = Matter.Mouse.create(canvas);
+      const mouseConstraint = Matter.MouseConstraint.create(engine, {
+        mouse: mouse,
+        constraint: {
+          stiffness: 0.2,
+          render: { visible: false }
+        }
+      });
+      Matter.Composite.add(world, mouseConstraint);
+
+      // Keep the mouse in sync for smooth scrolling/offset if needed
+      mouseConstraint.mouse.element.removeEventListener("mousewheel", mouseConstraint.mouse.mousewheel);
+      mouseConstraint.mouse.element.removeEventListener("DOMMouseScroll", mouseConstraint.mouse.mousewheel);
+
+      // Data Scraps
+      const scraps: Array<{body: Matter.Body, label: string, color: string}> = [];
+      const labels = ['SYS_ERR', '[DATA_NODE]', 'FRAG:0x1A', 'NULL', 'REDACTED', 'HCI:INIT', 'NUCLEUS', 'BUFFER'];
+
+      function spawnScrap() {
+        if(scraps.length > 20) return; // limit
+        const bodyWidth = 100 + Math.random() * 60;
+        const bodyHeight = 40;
+        const b = Matter.Bodies.rectangle(
+          Math.random() * width, 
+          -50, 
+          bodyWidth, 
+          bodyHeight, 
+          { 
+            restitution: 0.6,
+            friction: 0.1,
+            frictionAir: 0.01,
+            density: 0.005,
+            angle: (Math.random() - 0.5) * 0.5
+          }
+        );
+        Matter.Composite.add(world, b);
+        
+        scraps.push({
+          body: b,
+          label: labels[Math.floor(Math.random() * labels.length)],
+          color: Math.random() > 0.8 ? '#D9381E' : '#111111'
+        });
+      }
+
+      // Drop scraps on interval
+      // Keep number limited
+      const spawnInterval = setInterval(() => {
+        if(scraps.length < 15) spawnScrap();
+      }, 2500);
+      for(let i=0; i<8; i++) setTimeout(spawnScrap, i*300);
+
+      // Custom Render Loop
+      function render() {
+        ctx.clearRect(0, 0, width, height);
+
+        // Draw Scraps
+        for (let s of scraps) {
+          const { body, label, color } = s;
+          const pos = body.position;
+          
+          ctx.save();
+          ctx.translate(pos.x, pos.y);
+          ctx.rotate(body.angle);
+          
+          // Draw rect
+          const rectW = 140; 
+          const rectH = 40;
+          ctx.lineWidth = 2;
+          
+          // Check if being dragged
+          const isDragged = mouseConstraint.body === body;
+          
+          if(isDragged) {
+            ctx.shadowColor = color;
+            ctx.shadowBlur = 15;
+            ctx.strokeStyle = '#fff';
+            ctx.fillStyle = color;
+          } else {
+            ctx.strokeStyle = color;
+            ctx.fillStyle = color === '#D9381E' ? 'rgba(217, 56, 30, 0.1)' : 'transparent';
+          }
+          
+          ctx.strokeRect(-rectW/2, -rectH/2, rectW, rectH);
+          ctx.fillRect(-rectW/2, -rectH/2, rectW, rectH);
+
+          // Draw text
+          ctx.fillStyle = isDragged ? (color === '#111111' ? '#fff' : '#fff') : color;
+          ctx.font = '600 14px "IBM Plex Mono", monospace';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(label, 0, 0);
+
+          ctx.restore();
+        }
+
+        Matter.Engine.update(engine, 1000/60);
+        requestAnimationFrame(render);
+      }
+
+      render();
+
+      window.addEventListener('resize', () => {
+        width = window.innerWidth;
+        height = canvas.parentElement ? canvas.parentElement.clientHeight : window.innerHeight;
+        canvas.width = width;
+        canvas.height = height;
+        Matter.Body.setPosition(ground, { x: width/2, y: height + 50 });
+        Matter.Body.setPosition(rightWall, { x: width + 50, y: height/2 });
+      });
+    }
+  </script>
+</BaseLayout>

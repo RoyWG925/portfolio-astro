@@ -1,0 +1,203 @@
+---
+export interface Props {
+  title?: string;
+  description?: string;
+}
+const {
+  title = 'Roy Wang | AI Application Engineer',
+  description = "Roy Wang's portfolio — Building at the intersection of AI, creative coding, and human-centered design."
+} = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <meta name="theme-color" content="#E3E1DC" />
+</head>
+<body>
+  <div class="noise-overlay" aria-hidden="true"></div>
+
+  <!-- Custom Crosshair Cursor -->
+  <div class="cursor-crosshair" id="cursor" aria-hidden="true">
+    <div class="ch-horiz"></div>
+    <div class="ch-vert"></div>
+  </div>
+
+  <slot />
+
+  <!-- Telemetry HUD -->
+  <div class="telemetry-hud" id="telemetry" aria-hidden="true">
+    <div class="telemetry-radar">
+      <div class="radar-grid"></div>
+      <div class="radar-center"></div>
+      <div class="radar-line" id="radar-line"></div>
+      <div class="radar-point" id="radar-point"></div>
+    </div>
+    <div class="telemetry-data">
+      <div>SYS.STATUS: <span style="color: var(--accent);">TRACKING</span></div>
+      <div>POS.X: <span id="pos-x">0000</span></div>
+      <div>POS.Y: <span id="pos-y">0000</span></div>
+      <div>VELOCITY: <span id="vel">0.0</span></div>
+      <div>SCROLL.Z: <span id="scroll-z">0000</span></div>
+    </div>
+  </div>
+
+  <!-- Lenis + GSAP -->
+  <script>
+    import Lenis from 'lenis';
+    import { gsap } from 'gsap';
+    import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    // ── Lenis smooth scroll ──────────────────────────────
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+    });
+
+    lenis.on('scroll', ScrollTrigger.update);
+    lenis.on('scroll', (e) => {
+      const scrollEl = document.getElementById('scroll-z');
+      if(scrollEl) scrollEl.innerText = Math.round(e.animatedScroll).toString().padStart(4, '0');
+    });
+
+    gsap.ticker.add((time: number) => {
+      lenis.raf(time * 1000);
+    });
+    gsap.ticker.lagSmoothing(0);
+
+    // ── Custom Crosshair & Telemetry ─────────────────────
+    const cursorEl = document.getElementById('cursor');
+    const hudX = document.getElementById('pos-x');
+    const hudY = document.getElementById('pos-y');
+    const hudVel = document.getElementById('vel');
+    const radarLine = document.getElementById('radar-line');
+    const radarPoint = document.getElementById('radar-point');
+
+    if (cursorEl) {
+      let mouseX = 0, mouseY = 0;
+      let lastX = 0, lastY = 0;
+      let elX = 0, elY = 0;
+      let velocity = 0;
+
+      document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+      });
+
+      // Sharp snapping cursor + Telemetry updates
+      (function animateCursor() {
+        // Cursor movement
+        elX += (mouseX - elX) * 0.4;
+        elY += (mouseY - elY) * 0.4;
+        gsap.set(cursorEl, { x: elX, y: elY });
+
+        // Velocity calc
+        const dx = mouseX - lastX;
+        const dy = mouseY - lastY;
+        velocity = Math.sqrt(dx*dx + dy*dy);
+        lastX = mouseX;
+        lastY = mouseY;
+
+        // Update HUD text
+        if(hudX) hudX.innerText = Math.round(mouseX).toString().padStart(4, '0');
+        if(hudY) hudY.innerText = Math.round(mouseY).toString().padStart(4, '0');
+        if(hudVel) hudVel.innerText = velocity.toFixed(1).padStart(4, '0');
+
+        // Update Radar (Point towards mouse relative to screen center)
+        if(radarLine && radarPoint) {
+          const cx = window.innerWidth / 2;
+          const cy = window.innerHeight / 2;
+          const angle = Math.atan2(mouseY - cy, mouseX - cx) * (180 / Math.PI);
+          
+          // Distance mapped to radar radius (max 30px)
+          const dist = Math.min(30, Math.sqrt(Math.pow(mouseX - cx, 2) + Math.pow(mouseY - cy, 2)) * 0.05);
+
+          gsap.set(radarLine, { rotation: angle });
+          gsap.set(radarPoint, { 
+            x: Math.cos(angle * Math.PI / 180) * dist,
+            y: Math.sin(angle * Math.PI / 180) * dist
+          });
+        }
+
+        requestAnimationFrame(animateCursor);
+      })();
+
+      document.querySelectorAll('a, button, .data-row').forEach(el => {
+        el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+        el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+      });
+    }
+
+    // ── Hero animations ──────────────────────────────────
+    const heroTl = gsap.timeline({ defaults: { ease: 'power4.out' } });
+    heroTl
+      .to('.hero-name', { opacity: 1, y: 0, duration: 1.2 }, 0.2)
+      .to('.hero-role', { opacity: 1, y: 0, duration: 1, stagger: 0.1 }, 0.4)
+      .to('.hero-desc', { opacity: 1, y: 0, duration: 0.8 }, 0.6)
+      .to('.btn-industrial', { opacity: 1, y: 0, duration: 0.6, stagger: 0.1 }, 0.7);
+
+    gsap.set(['.hero-desc', '.btn-industrial'], { y: 20 });
+
+    // ── Section Title Reveal ─────────────────────────────
+    gsap.utils.toArray<HTMLElement>('.sect-title-wrap').forEach(el => {
+      gsap.fromTo(el, 
+        { opacity: 0, x: -50 },
+        {
+          opacity: 1, x: 0,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 85%',
+            once: true
+          }
+        }
+      );
+    });
+
+    // ── Hover Preview for Projects ───────────────────────
+    const preview = document.getElementById('hover-preview');
+    if (preview) {
+      const previewImg = preview.querySelector('img') as HTMLImageElement;
+      const asciiContainer = preview.querySelector('.ascii-container') as HTMLElement;
+      
+      document.querySelectorAll<HTMLElement>('.data-row').forEach(row => {
+        const src = row.dataset.img;
+        if (!src) return;
+
+        row.addEventListener('mouseenter', () => {
+          previewImg.src = src;
+          // Setup ASCII mode randomly or based on an attribute
+          if(Math.random() > 0.5 && asciiContainer) {
+             preview.classList.add('ascii-mode');
+             // Fake ASCII text for effect
+             asciiContainer.innerHTML = Array(30).fill(0).map(() => 
+                Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
+             ).join('\\n');
+          } else {
+             preview.classList.remove('ascii-mode');
+          }
+          gsap.to(preview, { opacity: 1, scale: 1, duration: 0.4, ease: 'expo.out' });
+        });
+        
+        row.addEventListener('mousemove', (e) => {
+          gsap.set(preview, { x: e.clientX, y: e.clientY });
+        });
+        
+        row.addEventListener('mouseleave', () => {
+          gsap.to(preview, { opacity: 0, scale: 0.8, duration: 0.3, ease: 'power2.in' });
+        });
+      });
+    }
+
+  </script>
+</body>
+</html>
