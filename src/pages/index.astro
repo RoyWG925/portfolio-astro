@@ -166,13 +166,8 @@ const projects = [
     </div>
 
     <div class="about-grid">
-      <!-- Profile Photo Panel -->
-      <div class="about-panel photo-panel">
-        <img src={`${base}/profile.jpg`} alt="Roy Wang" />
-        <div class="photo-overlay"></div>
-      </div>
-
-      <div class="about-panel">
+      <!-- 1. Text Context -->
+      <div class="about-panel context-panel">
         <div class="about-text">
           <p>
             I'm a B.S. Learning Sciences student at <strong>National Taiwan Normal University</strong>.
@@ -185,6 +180,15 @@ const projects = [
             My objective: Target AI application startups where <strong>System Thinking</strong> × <strong>Visual Delivery</strong> creates extreme leverage.
           </p>
         </div>
+      </div>
+      
+      <!-- 2. Profile Photo Dossier -->
+      <div class="about-panel photo-panel">
+        <div class="photo-wrapper">
+          <img src={`${base}/profile.jpg`} alt="Roy Wang" />
+          <div class="photo-overlay"></div>
+        </div>
+        <div class="photo-caption">ID: R_WANG // SYS_ADMIN</div>
       </div>
       
       <div class="about-panel" style="background: var(--bg); padding-top: 1rem;">
