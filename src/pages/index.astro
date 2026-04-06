@@ -299,7 +299,7 @@ const projects = [
       mouseConstraint.mouse.element.removeEventListener("DOMMouseScroll", mouseConstraint.mouse.mousewheel);
 
       // Data Scraps
-      const scraps: Array<{body: Matter.Body, label: string, color: string}> = [];
+      const scraps: Array<{body: Matter.Body, label: string, color: string, lastTeleport?: number}> = [];
       const labels = ['RAG', 'BERT', 'THREE.JS', 'REACT', 'PYTHON', 'GEMINI', 'LLM', 'ASTRO', 'FIREBASE', 'WEBGL', 'HCI', 'PROMPT'];
 
       function spawnScrap() {
@@ -384,9 +384,74 @@ const projects = [
       }, 2500);
       for(let i=0; i<8; i++) setTimeout(spawnScrap, i*300);
 
+      // --- PORTAL SYSTEM ---
+      const portals = {
+        blue: { x: width * 0.15, y: height - 100, radius: 50, color: '#00A2FF' },
+        orange: { x: width * 0.85, y: 150, radius: 50, color: '#FF7B00' }
+      };
+
+      function updatePortals() {
+        // Keep portals responsive
+        portals.blue.x = width * 0.15;
+        portals.blue.y = height - 100;
+        portals.orange.x = width * 0.85;
+
+        const now = Date.now();
+        scraps.forEach(s => {
+          const body = s.body;
+          if (now - (s.lastTeleport || 0) < 1000) return; // 1 sec cooldown
+          
+          // Blue -> Orange
+          const distBlue = Math.hypot(body.position.x - portals.blue.x, body.position.y - portals.blue.y);
+          if (distBlue < portals.blue.radius) {
+            Matter.Body.setPosition(body, { x: portals.orange.x, y: portals.orange.y });
+            // Add a small push effect coming out of the portal
+            Matter.Body.setVelocity(body, { x: -5, y: 2 });
+            s.lastTeleport = now;
+          }
+          
+          // Orange -> Blue
+          const distOrange = Math.hypot(body.position.x - portals.orange.x, body.position.y - portals.orange.y);
+          if (distOrange < portals.orange.radius) {
+            Matter.Body.setPosition(body, { x: portals.blue.x, y: portals.blue.y });
+            Matter.Body.setVelocity(body, { x: 5, y: -5 });
+            s.lastTeleport = now;
+          }
+        });
+      }
+
+      function drawPortals() {
+        ctx.save();
+        const drawPortal = (p: any, scaleY: number) => {
+          // Outer glow
+          ctx.beginPath();
+          ctx.ellipse(p.x, p.y, p.radius, p.radius * scaleY, 0, 0, Math.PI * 2);
+          ctx.strokeStyle = p.color;
+          ctx.lineWidth = 3;
+          ctx.shadowColor = p.color;
+          ctx.shadowBlur = 15;
+          ctx.stroke();
+          
+          // Inner core
+          ctx.beginPath();
+          ctx.ellipse(p.x, p.y, p.radius - 8, (p.radius - 8) * scaleY, 0, 0, Math.PI * 2);
+          ctx.fillStyle = p.color;
+          ctx.globalAlpha = 0.2;
+          ctx.fill();
+        };
+
+        drawPortal(portals.blue, 0.3); // Flat on the ground
+        drawPortal(portals.orange, 0.8); // Floating in the air
+        ctx.restore();
+      }
+
       // Custom Render Loop
       function render() {
         ctx.clearRect(0, 0, width, height);
+
+        // Update and draw portals
+        updatePortals();
+        drawPortals();
 
         // Draw Scraps
         for (let s of scraps) {
