@@ -42,6 +42,32 @@ const projects = [
   },
 ];
 ---
+<style>
+  /* DOM-based Brutalist Portals */
+  .portal-text {
+    display: inline-block;
+    color: transparent; /* Makes the letter invisible */
+    -webkit-text-stroke: 2px currentColor; /* Keeps the outline */
+    position: relative;
+    border-radius: 50%;
+    /* Add a subtle glow so they stand out */
+    text-shadow: 0 0 10px currentColor; 
+  }
+  .portal-orange { color: var(--accent-1, #D9381E); }
+  .portal-blue { color: #00A2FF; }
+
+  /* Draw an inner darkness to look like a physical hole */
+  .portal-text::after {
+    content: '';
+    position: absolute;
+    top: 15%; bottom: 15%; left: 15%; right: 15%;
+    border-radius: 50%;
+    z-index: -1;
+    pointer-events: none;
+  }
+  .portal-orange::after { background: radial-gradient(circle, #000 30%, rgba(217, 56, 30, 0.4) 100%); }
+  .portal-blue::after { background: radial-gradient(circle, #000 30%, rgba(0, 162, 255, 0.4) 100%); }
+</style>
 <BaseLayout>
   <!-- NAV BANNER -->
   <header class="nav-banner">
@@ -105,12 +131,12 @@ const projects = [
     <div class="hero-main" style="position: relative; z-index: 20; pointer-events: none;">
       <div class="hero-text-col" style="flex: 1; pointer-events: none;">
         <div class="hero-name-wrap">
-          <h1 class="hero-name">R<span id="portal-target-o">o</span>y Wang</h1>
+          <h1 class="hero-name">R<span id="portal-target-o" class="portal-text portal-orange">O</span>Y WANG</h1>
         </div>
         <div class="hero-role-wrap">
           <div class="hero-role">AI Application Engineer</div>
           <div class="hero-role" style="color: var(--border);">+</div>
-          <div class="hero-role" style="color: var(--accent-2);">Creative Technologist</div>
+          <div class="hero-role" style="color: var(--accent-2);">Creative Techn<span id="portal-target-blue" class="portal-text portal-blue" style="text-transform: uppercase;">o</span>logist</div>
         </div>
 
         <p class="hero-desc" style="margin-top: 3rem;">
@@ -386,23 +412,29 @@ const projects = [
 
       // --- PORTAL SYSTEM ---
       const portals = {
-        blue: { x: width * 0.25, y: height - 20, radius: 60, color: '#00A2FF' },
-        orange: { x: width * 0.85, y: 150, radius: 45, color: '#FF7B00' }
+        blue: { x: 0, y: 0, radius: 0 },
+        orange: { x: 0, y: 0, radius: 0 }
       };
 
       function updatePortals() {
-        // Keep blue portal on the floor
-        portals.blue.x = width * 0.25;
-        portals.blue.y = height - 25;
+        const canvasRect = canvas.getBoundingClientRect();
         
         // Pin orange portal to the 'O' in 'ROY'
         const targetO = document.getElementById('portal-target-o');
         if (targetO) {
           const rect = targetO.getBoundingClientRect();
-          // The canvas covers the whole viewport/hero window, so we can use bounding client rect
-          portals.orange.x = rect.left + rect.width / 2;
-          portals.orange.y = rect.top + rect.height / 2;
-          portals.orange.radius = rect.height * 0.4;
+          portals.orange.x = (rect.left - canvasRect.left) + rect.width / 2;
+          portals.orange.y = (rect.top - canvasRect.top) + rect.height / 2;
+          portals.orange.radius = Math.max(rect.width, rect.height) * 0.4;
+        }
+
+        // Pin blue portal to the 'o' in 'Technologist'
+        const targetBlue = document.getElementById('portal-target-blue');
+        if (targetBlue) {
+          const rect2 = targetBlue.getBoundingClientRect();
+          portals.blue.x = (rect2.left - canvasRect.left) + rect2.width / 2;
+          portals.blue.y = (rect2.top - canvasRect.top) + rect2.height / 2;
+          portals.blue.radius = Math.max(rect2.width, rect2.height) * 0.4;
         }
 
         const now = Date.now();
@@ -413,56 +445,27 @@ const projects = [
           const distBlue = Math.hypot(body.position.x - portals.blue.x, body.position.y - portals.blue.y);
           const distOrange = Math.hypot(body.position.x - portals.orange.x, body.position.y - portals.orange.y);
 
-          // Blue -> Orange
+          // Blue -> Orange (Falls into Creative Technologist)
           if (distBlue < portals.blue.radius) {
             Matter.Body.setPosition(body, { x: portals.orange.x, y: portals.orange.y });
-            Matter.Body.setVelocity(body, { x: (Math.random() - 0.5) * 10, y: 5 }); // Shoot out of the O
+            Matter.Body.setVelocity(body, { x: (Math.random() - 0.5) * 10, y: -8 }); // Spray upwards out of ROY
             s.lastTeleport = now;
           }
-          // Orange -> Blue
+          // Orange -> Blue (Falls into ROY)
           else if (distOrange < portals.orange.radius) {
             Matter.Body.setPosition(body, { x: portals.blue.x, y: portals.blue.y });
-            Matter.Body.setVelocity(body, { x: 0, y: -15 }); // Shoot straight up from the floor
+            Matter.Body.setVelocity(body, { x: (Math.random() - 0.5) * 10, y: 8 }); // Drop down out of Technologist
             s.lastTeleport = now;
           }
         });
-      }
-
-      function drawPortals() {
-        ctx.save();
-        const drawPortal = (p: any, scaleY: number) => {
-          // Outer glow
-          ctx.beginPath();
-          ctx.ellipse(p.x, p.y, p.radius, p.radius * scaleY, 0, 0, Math.PI * 2);
-          ctx.strokeStyle = p.color;
-          ctx.lineWidth = 4;
-          ctx.shadowColor = p.color;
-          ctx.shadowBlur = 20;
-          ctx.stroke();
-          
-          // Inner core
-          ctx.beginPath();
-          ctx.ellipse(p.x, p.y, p.radius - 8, (p.radius - 8) * scaleY, 0, 0, Math.PI * 2);
-          ctx.fillStyle = p.color;
-          ctx.globalAlpha = 0.3;
-          ctx.fill();
-        };
-
-        // Draw blue flat on the floor
-        drawPortal(portals.blue, 0.2); 
-        // Draw orange flat against the wall
-        drawPortal(portals.orange, 0.9);
-        
-        ctx.restore();
       }
 
       // Custom Render Loop
       function render() {
         ctx.clearRect(0, 0, width, height);
 
-        // Update and draw portals
+        // Update portal tracking mechanics (visuals are handled by CSS)
         updatePortals();
-        drawPortals();
 
         // Draw Scraps
         for (let s of scraps) {
