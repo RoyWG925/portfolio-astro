@@ -272,7 +272,7 @@ const projects = [
       let ground = Matter.Bodies.rectangle(width/2, height + 50, width * 2, 100, wallOpts);
       let leftWall = Matter.Bodies.rectangle(-50, height/2, 100, height * 2, wallOpts);
       let rightWall = Matter.Bodies.rectangle(width + 50, height/2, 100, height * 2, wallOpts);
-      let ceiling = Matter.Bodies.rectangle(width/2, -100, width * 2, 100, wallOpts);
+      let ceiling = Matter.Bodies.rectangle(width/2, -500, width * 2, 100, wallOpts);
       Matter.Composite.add(world, [ground, leftWall, rightWall, ceiling]);
 
       // Add Mouse Constraint so we can DRAG and THROW
@@ -292,7 +292,7 @@ const projects = [
 
       // Data Scraps
       const scraps: Array<{body: Matter.Body, label: string, color: string}> = [];
-      const labels = ['SYS_ERR', '[DATA_NODE]', 'FRAG:0x1A', 'NULL', 'REDACTED', 'HCI:INIT', 'NUCLEUS', 'BUFFER'];
+      const labels = ['RAG', 'BERT', 'THREE.JS', 'REACT', 'PYTHON', 'GEMINI', 'LLM', 'ASTRO', 'FIREBASE', 'WEBGL', 'HCI', 'PROMPT'];
 
       function spawnScrap() {
         if(scraps.length > 20) return; // limit
