@@ -159,6 +159,30 @@ body.cursor-hover .ch-vert { background: var(--accent); width: 3px; }
   color: var(--surface);
 }
 
+.icon-link {
+  padding: 0 1.25rem;
+}
+
+.icon-link svg {
+  display: block;
+}
+
+.icon-link:hover {
+  background: var(--surface);
+  color: var(--accent-2);
+}
+
+.nav-accent {
+  background: var(--surface);
+  color: var(--border);
+  font-weight: 700;
+}
+
+.nav-accent:hover {
+  background: var(--accent);
+  color: var(--bg);
+}
+
 /* ═══════════════════════════════════════════
    HERO
 ═══════════════════════════════════════════ */
