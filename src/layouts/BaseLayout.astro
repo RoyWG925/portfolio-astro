@@ -163,47 +163,6 @@ const {
       );
     });
 
-    // ── Hover Preview for Projects ───────────────────────
-    const preview = document.getElementById('hover-preview');
-    if (preview) {
-      const previewImg = preview.querySelector('img') as HTMLImageElement;
-      const asciiContainer = preview.querySelector('.ascii-container') as HTMLElement;
-      
-      document.querySelectorAll<HTMLElement>('.data-row').forEach(row => {
-        const src = row.dataset.img;
-
-        row.addEventListener('mouseenter', () => {
-          if (src) {
-            previewImg.src = src;
-            previewImg.style.display = 'block';
-          } else {
-            previewImg.style.display = 'none';
-          }
-          
-          // Setup ASCII mode randomly or if src is missing
-          if(!src || (Math.random() > 0.5 && asciiContainer)) {
-             preview.classList.add('ascii-mode');
-             if(asciiContainer) {
-                asciiContainer.innerHTML = Array(30).fill(0).map(() => 
-                  Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
-                ).join('\\n');
-             }
-          } else {
-             preview.classList.remove('ascii-mode');
-          }
-          gsap.to(preview, { opacity: 1, scale: 1, duration: 0.4, ease: 'expo.out' });
-        });
-        
-        row.addEventListener('mousemove', (e) => {
-          gsap.set(preview, { x: e.clientX, y: e.clientY, xPercent: -50, yPercent: -50 });
-        });
-        
-        row.addEventListener('mouseleave', () => {
-          gsap.to(preview, { opacity: 0, scale: 0.8, duration: 0.3, ease: 'power2.in' });
-        });
-      });
-    }
-
   </script>
 </body>
 </html>
