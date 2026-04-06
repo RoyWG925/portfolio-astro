@@ -105,7 +105,7 @@ const projects = [
     <div class="hero-main" style="position: relative; z-index: 20; pointer-events: none;">
       <div class="hero-text-col" style="flex: 1; pointer-events: none;">
         <div class="hero-name-wrap">
-          <h1 class="hero-name">Roy Wang</h1>
+          <h1 class="hero-name">R<span id="portal-target-o">o</span>y Wang</h1>
         </div>
         <div class="hero-role-wrap">
           <div class="hero-role">AI Application Engineer</div>
@@ -386,35 +386,43 @@ const projects = [
 
       // --- PORTAL SYSTEM ---
       const portals = {
-        blue: { x: width * 0.15, y: height - 100, radius: 50, color: '#00A2FF' },
-        orange: { x: width * 0.85, y: 150, radius: 50, color: '#FF7B00' }
+        blue: { x: width * 0.25, y: height - 20, radius: 60, color: '#00A2FF' },
+        orange: { x: width * 0.85, y: 150, radius: 45, color: '#FF7B00' }
       };
 
       function updatePortals() {
-        // Keep portals responsive
-        portals.blue.x = width * 0.15;
-        portals.blue.y = height - 100;
-        portals.orange.x = width * 0.85;
+        // Keep blue portal on the floor
+        portals.blue.x = width * 0.25;
+        portals.blue.y = height - 25;
+        
+        // Pin orange portal to the 'O' in 'ROY'
+        const targetO = document.getElementById('portal-target-o');
+        if (targetO) {
+          const rect = targetO.getBoundingClientRect();
+          // The canvas covers the whole viewport/hero window, so we can use bounding client rect
+          portals.orange.x = rect.left + rect.width / 2;
+          portals.orange.y = rect.top + rect.height / 2;
+          portals.orange.radius = rect.height * 0.4;
+        }
 
         const now = Date.now();
         scraps.forEach(s => {
           const body = s.body;
           if (now - (s.lastTeleport || 0) < 1000) return; // 1 sec cooldown
           
-          // Blue -> Orange
           const distBlue = Math.hypot(body.position.x - portals.blue.x, body.position.y - portals.blue.y);
+          const distOrange = Math.hypot(body.position.x - portals.orange.x, body.position.y - portals.orange.y);
+
+          // Blue -> Orange
           if (distBlue < portals.blue.radius) {
             Matter.Body.setPosition(body, { x: portals.orange.x, y: portals.orange.y });
-            // Add a small push effect coming out of the portal
-            Matter.Body.setVelocity(body, { x: -5, y: 2 });
+            Matter.Body.setVelocity(body, { x: (Math.random() - 0.5) * 10, y: 5 }); // Shoot out of the O
             s.lastTeleport = now;
           }
-          
           // Orange -> Blue
-          const distOrange = Math.hypot(body.position.x - portals.orange.x, body.position.y - portals.orange.y);
-          if (distOrange < portals.orange.radius) {
+          else if (distOrange < portals.orange.radius) {
             Matter.Body.setPosition(body, { x: portals.blue.x, y: portals.blue.y });
-            Matter.Body.setVelocity(body, { x: 5, y: -5 });
+            Matter.Body.setVelocity(body, { x: 0, y: -15 }); // Shoot straight up from the floor
             s.lastTeleport = now;
           }
         });
@@ -427,21 +435,24 @@ const projects = [
           ctx.beginPath();
           ctx.ellipse(p.x, p.y, p.radius, p.radius * scaleY, 0, 0, Math.PI * 2);
           ctx.strokeStyle = p.color;
-          ctx.lineWidth = 3;
+          ctx.lineWidth = 4;
           ctx.shadowColor = p.color;
-          ctx.shadowBlur = 15;
+          ctx.shadowBlur = 20;
           ctx.stroke();
           
           // Inner core
           ctx.beginPath();
           ctx.ellipse(p.x, p.y, p.radius - 8, (p.radius - 8) * scaleY, 0, 0, Math.PI * 2);
           ctx.fillStyle = p.color;
-          ctx.globalAlpha = 0.2;
+          ctx.globalAlpha = 0.3;
           ctx.fill();
         };
 
-        drawPortal(portals.blue, 0.3); // Flat on the ground
-        drawPortal(portals.orange, 0.8); // Floating in the air
+        // Draw blue flat on the floor
+        drawPortal(portals.blue, 0.2); 
+        // Draw orange flat against the wall
+        drawPortal(portals.orange, 0.9);
+        
         ctx.restore();
       }
 
