@@ -253,9 +253,17 @@ const failureModes = [
 
 <style>
   .case-page {
+    max-width: 100vw;
+    overflow-x: hidden;
     padding-top: 60px;
     background: var(--bg);
     color: var(--text);
+  }
+
+  .case-page *,
+  .case-page *::before,
+  .case-page *::after {
+    box-sizing: border-box;
   }
 
   .case-hero {
@@ -361,6 +369,8 @@ const failureModes = [
   .case-diagnosis-card,
   .case-failure-list {
     padding: 3rem 2rem;
+    min-width: 0;
+    width: 100%;
   }
 
   .case-section-body h2,
@@ -566,12 +576,14 @@ const failureModes = [
       border-right: none;
       border-bottom: 2px solid var(--border);
       padding: 1rem 2rem;
+      max-width: 100%;
     }
 
     .case-architecture,
     .case-evidence-grid,
     .case-diagnosis-grid {
       grid-template-columns: 1fr;
+      max-width: 100%;
     }
 
     .case-failure-list {
