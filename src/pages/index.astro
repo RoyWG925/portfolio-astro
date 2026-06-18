@@ -59,28 +59,6 @@ const projects = [
   .portal-orange::after { background: radial-gradient(circle, #000 30%, rgba(217, 56, 30, 0.4) 100%); }
   .portal-blue::after { background: radial-gradient(circle, #000 30%, rgba(0, 162, 255, 0.4) 100%); }
 
-  /* Interactive System HUD */
-  .sys-hud-tracker {
-    position: fixed;
-    bottom: 1.5rem;
-    right: 1.5rem;
-    background: rgba(10, 10, 10, 0.6);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid var(--border);
-    padding: 0.75rem 1rem;
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    color: var(--text-muted);
-    z-index: 100;
-    pointer-events: none;
-    line-height: 1.6;
-    letter-spacing: 1px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.5);
-  }
-  .sys-hud-tracker span {
-    color: var(--text);
-  }
 </style>
 <BaseLayout>
   <!-- NAV BANNER -->
@@ -303,15 +281,6 @@ const projects = [
     <span>Built with Astro // Matter.js</span>
   </footer>
 
-  <!-- System Tracking HUD -->
-  <div class="sys-hud-tracker" id="sys-tracker">
-    <div class="hud-line">SYS.STATUS // <span style="color: var(--accent-1);">TRACKING</span></div>
-    <div class="hud-line">POS.X // <span id="hud-x">0000</span></div>
-    <div class="hud-line">POS.Y // <span id="hud-y">0000</span></div>
-    <div class="hud-line">VEL.Y // <span id="hud-v">00.0</span></div>
-    <div class="hud-line">SCR.Y // <span id="hud-s">0000</span></div>
-  </div>
-
   <script>
     import Matter from 'matter-js';
 
@@ -354,7 +323,7 @@ const projects = [
 
       // Data Scraps
       const scraps: Array<{body: Matter.Body, label: string, color: string, lastTeleport?: number}> = [];
-      const labels = ['RAG', 'BERT', 'THREE.JS', 'REACT', 'PYTHON', 'GEMINI', 'LLM', 'ASTRO', 'FIREBASE', 'WEBGL', 'HCI', 'PROMPT'];
+      const labels = ['RAG', 'EVAL', 'TRACE', 'MEMORY', 'RERANK', 'BM25', 'CITATION', 'TESTS', 'NLP', 'PYTHON', 'REACT', 'HCI'];
 
       function spawnScrap() {
         if(scraps.length > 20) return; // limit
@@ -396,7 +365,7 @@ const projects = [
       const btnStress = document.getElementById('btn-stress-test');
       if(btnStress) {
         btnStress.addEventListener('click', () => {
-          // Trigger visual glitch & HUD
+          // Trigger visual glitch
           document.body.classList.add('stress-active');
           
           // Reverse Gravity
@@ -549,27 +518,6 @@ const projects = [
         Matter.Body.setPosition(ground, { x: width/2, y: height + 50 });
         Matter.Body.setPosition(rightWall, { x: width + 50, y: height/2 });
       });
-      // System HUD Tracking Logic
-      const hudX = document.getElementById('hud-x');
-      const hudY = document.getElementById('hud-y');
-      const hudV = document.getElementById('hud-v');
-      const hudS = document.getElementById('hud-s');
-      let lastY = 0;
-      
-      window.addEventListener('mousemove', (e) => {
-        if(hudX) hudX.innerText = String(e.clientX).padStart(4, '0');
-        if(hudY) hudY.innerText = String(e.clientY).padStart(4, '0');
-        if(hudV) {
-          const vel = Math.abs(e.clientY - lastY);
-          hudV.innerText = vel.toFixed(1).padStart(4, '0');
-          lastY = e.clientY;
-        }
-      });
-
-      window.addEventListener('scroll', () => {
-        if(hudS) hudS.innerText = String(Math.floor(window.scrollY)).padStart(4, '0');
-      });
-
     }
   </script>
 </BaseLayout>
