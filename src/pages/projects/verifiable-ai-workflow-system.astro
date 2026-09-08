@@ -5,8 +5,8 @@ import '../../styles/global.css';
 const base = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const proofChips = [
-  'Evaluated RAG',
-  'Agent Memory Benchmark',
+  'RAG Design',
+  'Reported Memory Benchmark',
   'Deterministic Validation',
   'Failure Diagnosis',
 ];
@@ -84,15 +84,19 @@ const failureModes = [
   <main class="case-page">
     <section class="case-hero">
       <a href={`${base}/#work`} class="case-back">Back to projects</a>
-      <div class="case-kicker">Portfolio Case Study</div>
-      <h1>Verifiable AI Workflow System</h1>
+      <div class="case-kicker">Course-derived Case Study</div>
+      <h1>Verifiable AI Workflows</h1>
       <p class="case-subtitle">
-        Evaluated RAG, agent memory, and deterministic validation for trustworthy AI workflows.
+        Three separate projects exploring RAG, agent memory, and deterministic validation.
       </p>
       <p class="case-thesis">
         Most AI demos are easy to make impressive once. The harder question is whether the workflow can be tested, traced, diagnosed, and improved when it fails.
       </p>
-      <div class="case-chip-row" aria-label="Project proof points">
+      <p class="case-thesis">
+        This case study brings together separate course-derived components. Their complete source and raw evaluation artifacts are not linked here yet.
+        <a href="https://github.com/RoyWG925/ai-code-eval-sample/tree/a10be34a1ee65533c2b47b5315cd9688afd0f6cf">Inspect the public code-review sample</a> for a smaller, independently runnable example.
+      </p>
+      <div class="case-chip-row" aria-label="Project focus areas">
         {proofChips.map((chip) => <span class="case-chip">{chip}</span>)}
       </div>
     </section>
@@ -130,33 +134,31 @@ const failureModes = [
     </section>
 
     <section class="case-section">
-      <div class="case-section-label">Architecture</div>
-      <div class="case-architecture" aria-label="AI workflow architecture">
-        <div>User Query</div>
-        <span>to</span>
-        <div>RAG Retrieval</div>
-        <span>to</span>
-        <div>Trace Logs / Citations</div>
-        <span>to</span>
-        <div>Memory Retrieval</div>
-        <span>to</span>
-        <div>Token-Budget Injection</div>
-        <span>to</span>
-        <div>AI Output</div>
-        <span>to</span>
-        <div>Deterministic Validation</div>
-        <span>to</span>
-        <div>Failure Labels</div>
+      <div class="case-section-label">Component Boundaries</div>
+      <div class="case-layer-stack">
+        <p class="case-note">These are separate workflows with their own inputs and outputs. A shared end-to-end runtime is not demonstrated in this case study.</p>
+        <article class="case-layer">
+          <div class="case-layer-index">[01]</div>
+          <div><h2>RAG</h2><p>Documents are indexed for dense and lexical retrieval. A query produces selected context, a generated answer, citations, and a query trace.</p></div>
+        </article>
+        <article class="case-layer">
+          <div class="case-layer-index">[02]</div>
+          <div><h2>Memory</h2><p>Stored memories are ranked for a task, then selected within an injection budget. Retrieval and injected-context coverage are distinct checks.</p></div>
+        </article>
+        <article class="case-layer">
+          <div class="case-layer-index">[03]</div>
+          <div><h2>Validation</h2><p>Generated outputs are checked against explicit contracts. Structured results describe which checks passed or failed.</p></div>
+        </article>
       </div>
     </section>
 
     <section class="case-section">
-      <div class="case-section-label">Evaluation Evidence</div>
+      <div class="case-section-label">Reported Course Results</div>
       <div class="case-evidence-grid">
         <article class="case-evidence-card">
-          <h2>Memory Retrieval Benchmark</h2>
+          <h2>Reported Memory Retrieval Benchmark</h2>
           <p>
-            Pure BM25 missed semantic and cross-language memory queries. Hybrid retrieval improved top-5 coverage while preserving the BM25 baseline path.
+            The course benchmark reported higher top-5 memory coverage with hybrid retrieval. These memory results are separate from HW3 RAG quality evaluation.
           </p>
           <table class="case-metric-table">
             <thead>
@@ -178,10 +180,11 @@ const failureModes = [
               ))}
             </tbody>
           </table>
+          <p class="case-note">Query count, dataset revision, run command, and per-query outputs are not linked on this page. These figures remain reported results, not a reproducible benchmark release.</p>
         </article>
 
         <article class="case-evidence-card">
-          <h2>Validation Evidence</h2>
+          <h2>Reported Validation Results</h2>
           <ul class="case-proof-list">
             <li><strong>186 passed, 1 skipped</strong> local tests</li>
             <li><strong>28/28</strong> repository checks</li>
@@ -189,7 +192,7 @@ const failureModes = [
             <li>Smoke logs verified across submitted validation skills</li>
           </ul>
           <p class="case-note">
-            These are local and course-runtime verification signals, not production reliability claims.
+            These are reported local and course-runtime counts. Matching source revisions, commands, and raw logs are not linked here. The 21/21 figure is a development-set result; it does not establish unseen-task accuracy.
           </p>
         </article>
       </div>
@@ -228,11 +231,11 @@ const failureModes = [
     </section>
 
     <section class="case-section">
-      <div class="case-section-label">What This Proves</div>
+      <div class="case-section-label">Engineering Focus</div>
       <div class="case-section-body">
         <h2>AI output is not enough.</h2>
         <p>
-          This project demonstrates my ability to build RAG and agent-memory workflows, design retrieval benchmarks, inspect intermediate traces, classify failure modes, validate AI-generated outputs deterministically, and turn vague AI behavior into measurable system behavior.
+          Across these projects, I focus on inspecting intermediate context, defining evaluation contracts, and diagnosing failures. A public, runnable code-review exercise is available separately; it is not the source of the 186-test course result.
         </p>
         <p class="case-callout">
           The workflow needs evidence, traces, tests, and failure diagnosis.
@@ -244,7 +247,7 @@ const failureModes = [
       <div class="case-section-label">Honest Limits</div>
       <div class="case-section-body">
         <p>
-          This is a portfolio case study, not production SaaS. Some components originated from course projects and were consolidated into one career-facing narrative. The strongest signal is the evaluation and validation pattern, not product polish yet.
+          This case study describes separate course-derived prototypes. It does not establish production reliability or an integrated deployed system. Reproducing the reported course metrics requires the original project source, data, environment, and run artifacts.
         </p>
       </div>
     </section>
