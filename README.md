@@ -1,43 +1,32 @@
-# Astro Starter Kit: Minimal
+# Roy Wang — Portfolio
+
+Personal site for Roy Wang, a product-minded engineer building AI-powered tools and interactive web apps.
+
+**Live:** https://roywg925.github.io/portfolio-astro/
+
+## Tech
+
+- [Astro](https://astro.build/)
+- GSAP and Lenis for motion
+- Matter.js for the hero physics
+- GitHub Pages, deployed by GitHub Actions
+
+## Run locally
+
+Node.js 22.12 or newer.
 
 ```sh
-npm create astro@latest -- --template minimal
+npm install
+npm run dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+The dev server is at `http://localhost:4321/portfolio-astro/` because `astro.config.mjs` sets `base` to `/portfolio-astro`.
 
-## 🚀 Project Structure
+## Build and deploy
 
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+```sh
+npm run build
+npm run preview
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Pushes to `main` run `.github/workflows/deploy.yml`, which builds with Node 22 and deploys to GitHub Pages.
