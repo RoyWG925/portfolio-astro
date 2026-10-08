@@ -7,31 +7,24 @@ const base = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL;
 const projects = [
   {
     num: '001',
-    name: 'Verifiable AI Workflow System',
-    desc: 'Portfolio case study on making AI workflows testable, traceable, diagnosable, and improvable through evaluated RAG, agent memory benchmarks, and deterministic validation harnesses.',
-    tags: ['RAG', 'Agent Memory', 'Evaluation', 'Testing'],
-    link: `${base}/projects/verifiable-ai-workflow-system`,
+    name: 'Market Sentiment × TAIEX',
+    desc: 'Three-person research project at National Taiwan Normal University. Fine-tuned a Chinese BERT on stock-forum posts and ran an event study against the TAIEX.',
+    tags: ['PyTorch', 'BERT', 'Python'],
+    link: 'https://github.com/RoyWG925/ptt-sentiment-stock-analysis',
   },
   {
     num: '002',
-    name: 'Market Sentiment X TAIEX',
-    desc: 'End-to-end NLP data pipeline processing 20,000+ PTT Stock Board posts, with SQLite ingestion, BERT fine-tuning, class-imbalance handling, and evaluation notes around noisy financial text.',
-    tags: ['PyTorch', 'BERT', 'Data Engineering'],
-    link: 'https://github.com/RoyWG925/ptt-sentiment-stock-analysis',
+    name: 'Is my major worth it?',
+    desc: 'Interactive look at Taiwan university admission scores versus graduate pay. An NTNU course project on which fields pay above or below what their scores would predict.',
+    tags: ['Python', 'Streamlit', 'Plotly'],
+    link: 'https://github.com/RoyWG925/taiwan-uni-cp-value',
   },
   {
     num: '003',
     name: 'NUCLEUS.IO',
-    desc: 'Flyable 3D universe built with Three.js. A focused creative-tech signal showing interactive interface taste, WebGL implementation, custom GLSL shaders, procedural audio, and multi-layer post-processing.',
+    desc: 'Flyable 3D universe built with Three.js. Interactive WebGL, custom GLSL shaders, procedural audio, and multi-layer post-processing.',
     tags: ['Three.js', 'WebGL', 'GLSL', 'Vite', 'Audio'],
     link: 'https://nucleus-io.vercel.app',
-  },
-  {
-    num: '004',
-    name: 'Archive / Experiments',
-    desc: 'Earlier prototypes and experiments, including realtime product sketches, small games, and creative coding studies. Kept as supporting range, not the main career signal.',
-    tags: ['React', 'Firebase', 'Canvas', 'Games'],
-    link: 'https://github.com/RoyWG925',
   },
 ];
 ---
@@ -97,7 +90,7 @@ const projects = [
       <div class="info-row">
         <div class="info-cell">
           <span class="info-label">Status</span>
-          <span class="info-value">Open to Work / 2026</span>
+          <span class="info-value">Open to Work</span>
         </div>
         <div class="info-cell">
           <span class="info-label">Location</span>
@@ -107,15 +100,15 @@ const projects = [
       <div class="info-row">
         <div class="info-cell">
           <span class="info-label">Focus [01]</span>
-          <span class="info-value">AI Application Engineering</span>
+          <span class="info-value">Applied NLP</span>
         </div>
         <div class="info-cell">
           <span class="info-label">Focus [02]</span>
-          <span class="info-value">RAG / Agent Workflows</span>
+          <span class="info-value">Full-Stack Apps</span>
         </div>
         <div class="info-cell">
           <span class="info-label">Focus [03]</span>
-          <span class="info-value">Evaluation / Reliability</span>
+          <span class="info-value">Interactive UI</span>
         </div>
       </div>
     </div>
@@ -126,15 +119,13 @@ const projects = [
           <h1 class="hero-name">R<span id="portal-target-o" class="portal-text portal-orange">O</span>Y WANG</h1>
         </div>
         <div class="hero-role-wrap">
-          <div class="hero-role">AI Application Engineer</div>
+          <div class="hero-role">AI Product Engineer</div>
           <div class="hero-role" style="color: var(--border);">+</div>
-          <div class="hero-role" style="color: var(--accent-2);" aria-label="Evaluation Workflows">Evaluation <span style="white-space: nowrap;">W<span id="portal-target-blue" class="portal-text portal-blue" style="text-transform: uppercase; transform: scale(1.3); margin: 0 4px;">o</span>RKFLOWS</span></div>
+          <div class="hero-role" style="color: var(--accent-2);" aria-label="Interactive Tools">Interactive <span style="white-space: nowrap;">T<span id="portal-target-blue" class="portal-text portal-blue" style="text-transform: uppercase; transform: scale(1.3); margin: 0 4px;">o</span>OLS</span></div>
         </div>
 
         <p class="hero-desc" style="margin-top: 3rem;">
-          I build AI workflows that are testable, traceable, and diagnosable,
-          with hands-on work in evaluated RAG, agent memory, NLP/data pipelines,
-          and full-stack product interfaces.
+          Product-minded engineer building AI-powered tools and interactive web apps.
         </p>
       </div>
 
@@ -151,20 +142,18 @@ const projects = [
   <!-- GIANT TICKER -->
   <div class="ticker-section" aria-hidden="true">
     <div class="ticker-track">
-      <span>RAG EVALUATION</span> //
-      <span>AGENT MEMORY</span> //
-      <span>FAILURE DIAGNOSIS</span> //
+      <span>APPLIED NLP</span> //
+      <span>FULL-STACK APPS</span> //
+      <span>INTERACTIVE UI</span> //
       <span>BERT FINE-TUNING</span> //
-      <span>FULL-STACK AI</span> //
-      <span>TRACE LOGS</span> //
-      <span>HUMAN-AI INTERFACES</span> //
-      <span>RAG EVALUATION</span> //
-      <span>AGENT MEMORY</span> //
-      <span>FAILURE DIAGNOSIS</span> //
+      <span>AI-POWERED TOOLS</span> //
+      <span>USEFUL SOFTWARE</span> //
+      <span>APPLIED NLP</span> //
+      <span>FULL-STACK APPS</span> //
+      <span>INTERACTIVE UI</span> //
       <span>BERT FINE-TUNING</span> //
-      <span>FULL-STACK AI</span> //
-      <span>TRACE LOGS</span> //
-      <span>HUMAN-AI INTERFACES</span> //
+      <span>AI-POWERED TOOLS</span> //
+      <span>USEFUL SOFTWARE</span> //
     </div>
   </div>
 
@@ -216,14 +205,14 @@ const projects = [
       <div class="about-panel context-panel">
         <div class="about-text">
           <p>
-            B.S. Learning Sciences @ <strong>National Taiwan Normal University</strong>. 
+            Graduated from <strong>National Taiwan Normal University</strong> (B.S., Learning Sciences, 2026).
             My HCI background gives me a rare lens: modeling how humans interact with complex systems — then building interfaces that collapse that complexity.
           </p>
           <p>
-            I work across the AI application stack - from NLP/data pipelines and retrieval systems to product-facing interfaces. Currently focused on <strong>AI workflow evaluation</strong>: RAG grounding, agent memory, trace logs, deterministic validation, and failure diagnosis.
+            I build AI-powered tools and interactive web apps, across applied NLP, full-stack product interfaces, and interactive UI.
           </p>
           <p>
-            My edge: I combine Learning Sciences and engineering practice. I care not only whether an AI system answers, but whether its workflow can be inspected, tested, and trusted by real users.
+            My edge: I combine Learning Sciences and engineering practice. I care whether the software is useful to a real person, not only whether a model can produce an answer.
           </p>
         </div>
       </div>
@@ -232,24 +221,16 @@ const projects = [
       <div class="about-panel" style="background: var(--bg); padding-top: 1rem;">
         <ul class="manifest-list">
           <li class="manifest-item">
-            <span class="manifest-label">AI / LLM</span>
-            <span class="manifest-val">RAG Pipelines, Agent Memory, LLM API Integration, Retrieval Evaluation, HuggingFace Embeddings</span>
-          </li>
-          <li class="manifest-item">
-            <span class="manifest-label">Quality / Evaluation</span>
-            <span class="manifest-val">Unit Testing, Deterministic Validation, Trace Logs, Failure Analysis, AI-Generated Code Review</span>
-          </li>
-          <li class="manifest-item">
-            <span class="manifest-label">Machine Learning</span>
+            <span class="manifest-label">Applied NLP</span>
             <span class="manifest-val">Python, PyTorch, HuggingFace Transformers, BERT Fine-tuning, Pandas, Jupyter</span>
           </li>
           <li class="manifest-item">
-            <span class="manifest-label">Frontend</span>
-            <span class="manifest-val">React, Astro, Three.js / WebGL, GLSL Shaders, Framer Motion, CSS Animation</span>
+            <span class="manifest-label">Full-Stack Apps</span>
+            <span class="manifest-val">React, Astro, Node.js, Firebase, Supabase, Vercel</span>
           </li>
           <li class="manifest-item">
-            <span class="manifest-label">Backend / Infra</span>
-            <span class="manifest-val">Node.js, Firebase, Supabase, Vercel</span>
+            <span class="manifest-label">Interactive UI</span>
+            <span class="manifest-val">Three.js / WebGL, GLSL Shaders, Framer Motion, CSS Animation</span>
           </li>
           <li class="manifest-item">
             <span class="manifest-label">Toolchain</span>
@@ -323,7 +304,7 @@ const projects = [
 
       // Data Scraps
       const scraps: Array<{body: Matter.Body, label: string, color: string, lastTeleport?: number}> = [];
-      const labels = ['RAG', 'EVAL', 'TRACE', 'MEMORY', 'RERANK', 'BM25', 'CITATION', 'TESTS', 'NLP', 'PYTHON', 'REACT', 'HCI'];
+      const labels = ['NLP', 'BERT', 'REACT', 'UI', 'PYTHON', 'WEBGL', 'ASTRO', 'TOOLS', 'APPS', 'HCI', 'VITE', 'SQL'];
 
       function spawnScrap() {
         if(scraps.length > 20) return; // limit
@@ -425,7 +406,7 @@ const projects = [
           portals.orange.radius = Math.max(rect.width, rect.height) * 0.7;
         }
 
-        // Pin blue portal to the 'o' in 'Technologist'
+        // Pin blue portal to the 'o' in 'Tools'
         const targetBlue = document.getElementById('portal-target-blue');
         if (targetBlue) {
           const rect2 = targetBlue.getBoundingClientRect();
@@ -451,7 +432,7 @@ const projects = [
           // Orange -> Blue (Falls into ROY)
           else if (distOrange < portals.orange.radius) {
             Matter.Body.setPosition(body, { x: portals.blue.x, y: portals.blue.y });
-            Matter.Body.setVelocity(body, { x: (Math.random() - 0.5) * 10, y: 8 }); // Drop down out of Technologist
+            Matter.Body.setVelocity(body, { x: (Math.random() - 0.5) * 10, y: 8 }); // Drop down out of Tools
             (s as any).lastTeleport = now;
           }
         });
