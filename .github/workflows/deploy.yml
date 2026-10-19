@@ -6,6 +6,11 @@ on:
     branches: [ main ]
   # Allows you to run this workflow manually from the Actions tab on GitHub.
   workflow_dispatch:
+    inputs:
+      source_commit:
+        description: 'Optional immutable builder-context commit (40 hex characters); blank uses main'
+        required: false
+        type: string
   schedule:
     - cron: '45 * * * *'
 
@@ -32,6 +37,7 @@ jobs:
         run: npm run sync:identity
         env:
           GH_TOKEN: ${{ github.token }}
+          IDENTITY_SOURCE_COMMIT: ${{ inputs.source_commit }}
       - name: Install the PDF renderer
         run: npm install --prefix .identity-tools --no-package-lock --no-save puppeteer@24.40.0
       - name: Generate the public resume PDF
