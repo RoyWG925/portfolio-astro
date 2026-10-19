@@ -1,0 +1,18 @@
+import {readFile,stat} from 'node:fs/promises';
+import assert from 'node:assert/strict';
+const root=new URL('../',import.meta.url);
+const read=path=>readFile(new URL(path,root),'utf8');
+const bundle=JSON.parse(await read('dist/identity.json'));
+const html=await read('dist/index.html'),journey=await read('dist/identity/index.html');
+for(const p of bundle.projects.filter(p=>p.featured))assert.ok(html.includes(p.name.replaceAll('&','&amp;'))&&journey.includes(p.name.replaceAll('&','&amp;')),p.id);
+assert.ok(html.includes('physics-canvas')&&html.includes('btn-stress-test')&&html.includes('btn-xray-toggle'),'Existing controls must remain');
+const source=await read('src/pages/index.astro');
+assert.ok(source.includes("document.body.classList.toggle('xray-mode')"));
+assert.ok(source.includes('engine.gravity.y = -1.2'));
+assert.ok(source.includes('updatePortals()'));
+assert.ok(journey.includes('Unconfirmed'),'Competition unknowns remain visible');
+assert.ok((await read('dist/ai-context.md')).includes(bundle.revision));
+assert.ok((await read('dist/resume.html')).includes(bundle.revision.slice(0,12)));
+const pdf=await readFile(new URL('dist/Roy_Wang_Resume.pdf',root));assert.ok(pdf.subarray(0,5).toString()==='%PDF-');assert.ok(pdf.length>10000);
+for(const path of ['dist/profile.jpg','dist/favicon.svg','dist/llms.txt','dist/identity-source.json'])assert.ok((await stat(new URL(path,root))).size>0);
+console.log(`Verified homepage, journey, PDF, HTML resume, public data, agent context and preserved interaction code at revision ${bundle.revision.slice(0,12)}.`);

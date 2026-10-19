@@ -1,0 +1,5 @@
+# Roy Wang
+Public professional context: https://roywg925.github.io/portfolio-astro/ai-context.md
+Structured public facts: https://roywg925.github.io/portfolio-astro/identity.json
+Canonical source: https://github.com/RoyWG925/builder-context
+New facts require Roy's confirmation. Do not infer roles, submission or awards.

@@ -6,6 +6,8 @@ on:
     branches: [ main ]
   # Allows you to run this workflow manually from the Actions tab on GitHub.
   workflow_dispatch:
+  schedule:
+    - cron: '45 * * * *'
 
 # Allow this job to clone the repo and create a page deployment
 permissions:
@@ -17,12 +19,34 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout your repository using git
-        uses: actions/checkout@v4
-      - name: Install, build, and upload your site
-        uses: withastro/action@v3
+      - name: Checkout the existing portfolio
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
-          node-version: 22
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - name: Pull one immutable public identity revision
+        run: npm run sync:identity
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - name: Install the PDF renderer
+        run: npm install --prefix .identity-tools --no-package-lock --no-save puppeteer@24.40.0
+      - name: Generate the public resume PDF
+        run: node scripts/render-pdf.cjs public/resume.html public/Roy_Wang_Resume.pdf
+        env:
+          PUPPETEER_MODULE_PATH: ${{ github.workspace }}/.identity-tools
+      - name: Build the existing Astro design
+        run: npm run build
+        env:
+          IDENTITY_OFFLINE: '1'
+      - name: Verify generated public routes and preserved interaction code
+        run: node scripts/check-build.mjs
+      - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa
+        with:
+          path: dist
 
   deploy:
     needs: build
@@ -33,4 +57,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@d6db9019c0c66351b3d1b33f9ea23be3b165318b

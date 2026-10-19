@@ -1,11 +1,12 @@
 ---
+import identity from "../data/identity.json";
 export interface Props {
   title?: string;
   description?: string;
 }
 const {
-  title = 'Roy Wang | AI Product Engineer',
-  description = 'Product-minded engineer building AI-powered tools and interactive web apps.',
+  title = `${identity.profile.name} | ${identity.profile.headline}`,
+  description = identity.profile.tagline,
 } = Astro.props;
 
 const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site) : Astro.url;
@@ -100,3 +101,4 @@ const ogImage = Astro.site ? new URL(`${baseUrl}profile.jpg`, Astro.site) : null
   </script>
 </body>
 </html>
+

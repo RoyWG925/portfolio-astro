@@ -9,7 +9,9 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "sync:identity": "node scripts/sync-identity.mjs",
+    "prebuild": "node scripts/sync-identity.mjs"
   },
   "dependencies": {
     "astro": "^6.1.3",
