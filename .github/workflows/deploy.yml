@@ -17,7 +17,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout the existing portfolio
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -38,7 +38,10 @@ jobs:
         run: node scripts/render-pdf.cjs public/resume.html public/Roy_Wang_Resume.pdf
         env:
           PUPPETEER_MODULE_PATH: ${{ github.workspace }}/.identity-tools
+      - name: Record the exact PDF, source and deployment versions
+        run: node scripts/build-receipt.mjs
       - name: Build the existing Astro design
+        # Every offline build first revalidates the exact files pulled above.
         run: npm run build
         env:
           IDENTITY_OFFLINE: '1'
@@ -50,7 +53,7 @@ jobs:
 
   deploy:
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

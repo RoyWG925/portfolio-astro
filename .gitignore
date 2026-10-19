@@ -24,3 +24,13 @@ pnpm-debug.log*
 .idea/
 
 .identity-tools/
+# Generated from one pinned canonical commit at build time; never commit stale snapshots.
+src/data/identity.json
+public/identity.json
+public/identity-source.json
+public/identity-build.json
+public/resume.html
+public/ai-context.md
+public/introductions.md
+public/llms.txt
+public/Roy_Wang_Resume.pdf
