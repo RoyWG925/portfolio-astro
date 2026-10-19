@@ -6,6 +6,7 @@ const bundle=JSON.parse(await read('dist/identity.json'));
 const html=await read('dist/index.html'),journey=await read('dist/identity/index.html');
 for(const p of bundle.projects.filter(p=>p.featured))assert.ok(html.includes(p.name.replaceAll('&','&amp;'))&&journey.includes(p.name.replaceAll('&','&amp;')),p.id);
 assert.ok(html.includes('physics-canvas')&&html.includes('btn-stress-test')&&html.includes('btn-xray-toggle'),'Existing controls must remain');
+assert.ok(html.includes(`Roy_Wang_Resume.pdf?v=${bundle.revision.slice(0,12)}`),'Resume download must identify its content revision');
 const source=await read('src/pages/index.astro');
 assert.ok(source.includes("document.body.classList.toggle('xray-mode')"));
 assert.ok(source.includes('engine.gravity.y = -1.2'));

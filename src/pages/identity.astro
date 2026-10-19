@@ -5,21 +5,21 @@ import identity from '../data/identity.json';
 const base = import.meta.env.BASE_URL.replace(/\/$/,'');
 ---
 <BaseLayout title={`${identity.profile.name} | Projects & Journey`}>
-  <header class="nav-banner"><a class="nav-logo-area" href={`${base}/`}>R/W</a><nav class="nav-links"><a class="nav-link" href={`${base}/#work`}>PROJECTS</a><a class="nav-link" href={`${base}/Roy_Wang_Resume.pdf`}>RESUME</a><a class="nav-link" href={identity.profile.links.github}>GITHUB</a></nav></header>
+  <header class="nav-banner"><a class="nav-logo-area" href={`${base}/`}>R/W</a><nav class="nav-links"><a class="nav-link" href={`${base}/#work`}>PROJECTS</a><a class="nav-link" href={`${base}/Roy_Wang_Resume.pdf?v=${identity.revision.slice(0,12)}`}>RESUME</a><a class="nav-link" href={identity.profile.links.github}>GITHUB</a></nav></header>
   <main class="section-wrapper journey">
     <div class="section-header-box"><div class="sect-title-wrap"><span class="sect-index">[ EVIDENCE ]</span><h1 class="sect-title">Projects &amp; Journey</h1></div></div>
     <p class="intro">Selected work, the contribution I can substantiate, and what each project still needs. <a href={identity.profile.links.context}>View the source and evidence ↗</a></p>
     {identity.projects.map(project=>(
       <article>
         <div class="entry-heading"><h2>{project.name}</h2><span>{project.period} / {project.status.replaceAll('-',' ')}</span></div>
-        <p>{project.summary}</p><p><strong>Contribution.</strong> {project.contribution}</p>
+        <p>{project.summary}</p><ul class="results">{project.results.map(r=><li>{r}</li>)}</ul><p><strong>Contribution.</strong> {project.contribution}</p>
         <div class="tags">{project.technologies.map(t=><span class="tech-tag">{t}</span>)}</div>
         <details><summary>Evidence, limitations &amp; lessons</summary><ul>{project.limitations.map(l=><li>{l}</li>)}</ul><p>{project.lessons.join(' ')}</p><p class="sources">{project.evidence.map(id=>identity.evidence.find(e=>e.id===id)).filter(Boolean).map(source=><a href={source!.url} target="_blank" rel="noopener noreferrer">{source!.id} ↗</a>)}</p><p class="verified">Last verified: {project.lastVerified}. {project.review.state==='published-baseline'?'Migrated from existing public material.':'Confirmed by Roy in a reviewed pull request.'}</p></details>
         <p class="sources"><a href={project.repository}>Code ↗</a>{project.demo&&<a href={project.demo}>Live experience ↗</a>}</p>
       </article>
     ))}
-    <section class="competition"><h2>Hackathon record</h2>{identity.competitions.map(c=><article><h3>{c.name}</h3><p>{c.track} / {c.period}</p><p>{c.summary}</p><p>Submission: {c.submitted===null?'Unconfirmed':c.submitted?'Confirmed':'Not submitted'} · Result: {c.result??'Unconfirmed'}</p></article>)}</section>
-    <footer><a href={`${base}/resume.html`}>View resume</a> · <a href={`${base}/ai-context.md`}>Context for AI agents</a> · <a href={`${base}/identity.json`}>Public data</a></footer>
+    <section class="competition"><h2>Hackathon record</h2>{identity.competitions.map(c=><article><h3>{c.name}</h3><p>{c.track} / {c.period}</p><p>{c.summary}</p><p>Submission: {c.submitted===null?'Unconfirmed':c.submitted?(c.review.state==='owner-attested'?'Owner attested':'Owner confirmed'):'Not submitted'} · Result: {c.result??'Results pending'}</p></article>)}</section>
+    <footer><a href={`${base}/resume.html?v=${identity.revision.slice(0,12)}`}>View resume</a> · <a href={`${base}/ai-context.md`}>Context for AI agents</a> · <a href={`${base}/identity.json`}>Public data</a></footer>
   </main>
 </BaseLayout>
 <style>
